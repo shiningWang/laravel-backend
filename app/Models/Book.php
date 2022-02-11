@@ -9,9 +9,6 @@ class Book extends Model
 {
     use HasFactory;
 
-    // if the primary not int laravel v9
-    protected $keyType = 'string';
-
     protected $table = 'books';
 
     protected $fillable = [
