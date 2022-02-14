@@ -20,6 +20,8 @@ use App\Http\Controllers\API\BookController;
 
 Route::middleware('auth:sanctum')->post('/profile', [AuthController::class, 'profile']);
 
+Route::post('/login', [AuthController::class, 'login']);
+
 // GetAll
 Route::middleware('auth:sanctum')->get('/book/read', [BookController::class, 'read']);
 

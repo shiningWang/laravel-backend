@@ -99,26 +99,18 @@ class BookController extends Controller
     {
         // find by id or others
         $user = User::where('id', $request->userId)->get()[0];
-        $user -> trains() -> saveMany([
+        $user -> trains() -> save(
             new Train([
-                'line' => 910, 
-                'station' => 'Perth', 
-                'build_year' => 2000, 
-                'frequency' => 16,
-                'manager' => 'Steve',
-                'active' => true
+                'line' => $request->line,
+                'station' => $request->station,
+                'build_year' => $request->build_year,
+                'frequency' => $request->frequency,
+                'manager' => $request->manager,
+                'active' => $request->active
             ]),
-            new Train([
-                'line' => 190, 
-                'station' => 'Fremantle', 
-                'build_year' => 2010, 
-                'frequency' => 22,
-                'manager' => 'Leo',
-                'active' => false
-            ]),
-        ]);
-        $trainsOfUser = Train::where('user_id', $request->userId)->get();
-        return ($trainsOfUser);
+        );
+        $trainsOfUser = Train::where('line', $request->line)->get()[0];
+        return response()->json($trainsOfUser);
     }
 
     public function findUserByTrain(Request $request)
