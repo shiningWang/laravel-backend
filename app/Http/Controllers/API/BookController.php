@@ -4,7 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Train;
 use App\Models\Book;
+use App\Models\User;
 use Validator;
 use DB;
 
@@ -91,5 +93,38 @@ class BookController extends Controller
             $changeResult = $result->update([$request->type => $request->value]);
             return($changeResult);
         }
+    }
+
+    public function insertDataWsRelationship(Request $request)
+    {
+        // find by id or others
+        $user = User::where('id', $request->userId)->get()[0];
+        $user -> trains() -> saveMany([
+            new Train([
+                'line' => 910, 
+                'station' => 'Perth', 
+                'build_year' => 2000, 
+                'frequency' => 16,
+                'manager' => 'Steve',
+                'active' => true
+            ]),
+            new Train([
+                'line' => 190, 
+                'station' => 'Fremantle', 
+                'build_year' => 2010, 
+                'frequency' => 22,
+                'manager' => 'Leo',
+                'active' => false
+            ]),
+        ]);
+        $trainsOfUser = Train::where('user_id', $request->userId)->get();
+        return ($trainsOfUser);
+    }
+
+    public function findUserByTrain(Request $request)
+    {
+        $train = Train::where('line', $request->line)->get()[0];
+        $userOfTrain = $train->user()->get();
+        echo $userOfTrain;
     }
 }

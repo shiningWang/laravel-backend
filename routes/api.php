@@ -17,9 +17,6 @@ use App\Http\Controllers\API\BookController;
 |
 */
 
-Route::post('/register', [AuthController::class, 'register']);
-
-Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->post('/profile', [AuthController::class, 'profile']);
 
@@ -37,3 +34,7 @@ Route::middleware('auth:sanctum')->delete('/book/delete', [BookController::class
 
 // Request Header Must Provide Accept application/json To Avoid Route[Home]
 Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
+
+Route::post('/insertDataWsRelationship', [BookController::class, 'insertDataWsRelationship']);
+
+Route::post('/findUserByTrain', [BookController::class, 'findUserByTrain']);
